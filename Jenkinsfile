@@ -13,13 +13,16 @@ pipeline {
             }
         }
         stage('Composer Install') {
-        sh 'composer install'
+		 steps {
+        		sh 'composer install'
+			}
 		}
           stage("PHPLint") {
-		   if (CURRENT_BRANCH == 'master') {
- 
+		   steps {
+         when (BRANCH_NAME != 'master') {
         sh './vendor/bin/phpunit --colors tests'
     }
     }
-}
+	  }
+    }
 }
