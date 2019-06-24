@@ -1,6 +1,5 @@
 pipeline {
     agent any
-
     stages {
         stage('Get code from SCM') {
             steps {
@@ -13,18 +12,17 @@ pipeline {
             }
         }
         stage('Composer Install') {
-        sh 'composer install'
+		 steps {
+        		sh 'composer install'
+			}
 		}
           stage("PHPLint") {
-		    when {
+		     when {
         branch 'master'
     }
     steps {
          sh './vendor/bin/phpunit --colors tests'
     }
- 
-    
-  }
-		  
     }
-}
+	  }
+    }
