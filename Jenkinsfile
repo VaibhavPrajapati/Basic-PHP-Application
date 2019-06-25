@@ -12,17 +12,22 @@ pipeline {
             }
         }
         stage('Composer Install') {
-		 steps {
+		    steps {
         		sh 'composer install'
 			}
 		}
-          stage("PHPLint") {
-		   if (env.BRANCH_NAME != 'development' && env.BRANCH_NAME != 'hotfix') {
-        echo 'This is not master or staging'
+        stage("PHPLint") {
+		   when {
+                    not {
+                    anyOf {
+                      branch 'master';
+                      branch 'hotfix'
+                  }
+                 }
+                }
+            steps {
+                sh './vendor/bin/phpunit --colors tests'
+            }
+        }
+	    }
     }
-		     
-    }
-	  }
-    }
-
-
