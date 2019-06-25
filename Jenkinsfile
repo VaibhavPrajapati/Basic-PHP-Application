@@ -17,12 +17,12 @@ pipeline {
 			}
 		}
           stage("PHPLint") {
-		     when {
-        branch 'master'
+		   if (env.BRANCH_NAME != 'development' && env.BRANCH_NAME != 'hotfix') {
+        echo 'This is not master or staging'
     }
-    steps {
-         sh './vendor/bin/phpunit --colors tests'
-    }
+		     
     }
 	  }
     }
+
+
