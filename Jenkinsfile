@@ -29,5 +29,12 @@ pipeline {
                 sh './vendor/bin/phpunit --colors tests'
             }
         }
+	    stage('Artifact add') {
+		    steps {
+        		sh 'zip -r BasicPHP.zip .'
+			archiveArtifacts artifacts: 'BasicPHP.zip', caseSensitive: false, defaultExcludes: false
+			}
+		}
+	    
 	    }
     }
