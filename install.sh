@@ -9,6 +9,7 @@ echo "soanrqube"
 sudo apt-get install zip
 sudo rm -rf sonar-scanner-*
 wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.3.0.1492-linux.zip
-sudo unzip sonar-scanner-*.zip
-
+sudo unzip sonar-scanner-*.zip 
+sudo rm sonar-scanner-*.zip
+sudo mv sonar-scanner* sonar
 
