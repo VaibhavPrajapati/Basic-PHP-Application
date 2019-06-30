@@ -22,7 +22,7 @@ pipeline {
         stage('Test') {
             when {
                 expression {
-                    GIT_BRANCH_NAME ==~ /.*master|.*feature|.*develop|.*hotfix/
+                    env.BRANCH_NAME ==~ /.*master|.*feature|.*develop|.*hotfix/
                 }
             }
             steps {
@@ -35,7 +35,7 @@ pipeline {
 		stage('CodeAnalysis') {
             when {
                 expression {
-                    GIT_BRANCH_NAME ==~ /.*master|.*feature|.*develop|.*hotfix/
+                    env.BRANCH_NAME ==~ /.*master|.*feature|.*develop|.*hotfix/
                 }
             }
             steps {			
@@ -50,7 +50,7 @@ pipeline {
 		stage('StoreArtifact') {
             when {
                 expression {
-                    GIT_BRANCH_NAME ==~ /.*master|.*feature|.*develop|.*hotfix/
+                    env.BRANCH_NAME ==~ /.*master|.*feature|.*develop|.*hotfix/
                 }
             }
             steps {
