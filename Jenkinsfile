@@ -1,40 +1,65 @@
 pipeline {
     agent any
     stages {
-        stage('Get code from SCM') {
+        stage('Build') {
             steps {
-                checkout([$class: 'GitSCM',
-				branches: [[name: '*/*']],
-				doGenerateSubmoduleConfigurations: false,
-				extensions: [],
-				submoduleCfg: [],
-				userRemoteConfigs: [[url: 'https://github.com/VaibhavPrajapati/Basic-PHP-Application.git']]])	
-            }
-        }
-        stage('Composer Install') {
-		    steps {
-        		sh 'composer install'
-			}
-		}
-        stage("PHPLint") {
-		   when {
-                    not {
-                    anyOf {
-                      branch 'master';
-                      branch 'hotfix'
-                  }
-                 }
+                checkout([
+                    $class: 'GitSCM',
+				    branches: [[name: '*/*']],
+		            doGenerateSubmoduleConfigurations: false,
+	         	    extensions: [],
+                    submoduleCfg: [],
+			        userRemoteConfigs: [[url: 'https://github.com/VaibhavPrajapati/Basic-PHP-Application.git']]
+                ])					
+			    withDockerContainer('composer') {
+			        script {
+				        echo "install compose.json"
+                        sh 'composer install --prefer-source'				
+			        }					
                 }
-            steps {
-                sh './vendor/bin/phpunit --colors tests'
             }
         }
-	    stage('Artifact add') {
-		    steps {
-        		sh 'zip -r BasicPHP.zip .'
-			archiveArtifacts artifacts: 'BasicPHP.zip', caseSensitive: false, defaultExcludes: false
-			}
-		}
-	    
-	    }
+        stage('Test') {
+            when {
+                expression {
+                    GIT_BRANCH_NAME ==~ /.*master|.*feature|.*develop|.*hotfix/
+                }
+            }
+            steps {
+			    script {
+				    echo "Running Test cases"
+			     	sh './vendor/bin/phpunit --colors tests'				
+			    }    
+            }
+        }
+		stage('CodeAnalysis') {
+            when {
+                expression {
+                    GIT_BRANCH_NAME ==~ /.*master|.*feature|.*develop|.*hotfix/
+                }
+            }
+            steps {			
+			    script {
+                    scannerHome = tool name: 'sonar-scanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
+                }                
+                withSonarQubeEnv('sonar-server') {
+                    sh "${scannerHome}/bin/sonar-scanner"
+                }
+            }
+        }
+		stage('StoreArtifact') {
+            when {
+                expression {
+                    GIT_BRANCH_NAME ==~ /.*master|.*feature|.*develop|.*hotfix/
+                }
+            }
+            steps {
+			    script{
+			    	echo "Store Artifact in local workspace"
+				    sh 'tar -cvf ${BUILD_NUMBER}.tar  .'
+                    archiveArtifacts '*.tar'
+			    }
+            }
+        }
     }
+}
