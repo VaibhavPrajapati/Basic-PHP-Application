@@ -22,7 +22,7 @@ pipeline {
         stage('Test') {
             when {
                 expression {
-                    env.BRANCH_NAME ==~ /.*master|.*feature|.*develop|.*hotfix/
+                    env.BRANCH_NAME ==~ /.*master|.*feature|.*development|.*hotfix/
                 }
             }
             steps {
@@ -35,7 +35,7 @@ pipeline {
 		stage('CodeAnalysis') {
             when {
                 expression {
-                    env.BRANCH_NAME ==~ /.*master|.*feature|.*develop|.*hotfix/
+                    env.BRANCH_NAME ==~ /.*master|.*feature|.*development|.*hotfix/
                 }
             }
             steps {			
@@ -50,7 +50,7 @@ pipeline {
 		stage('StoreArtifact') {
             when {
                 expression {
-                    env.BRANCH_NAME ==~ /.*master|.*feature|.*develop|.*hotfix/
+                    env.BRANCH_NAME ==~ /.*master|.*feature|.*development|.*hotfix/
                 }
             }
             steps {
