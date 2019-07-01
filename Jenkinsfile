@@ -19,29 +19,26 @@ pipeline {
                 }
             }
         }
-        
         stage('Test') {
             when {
                 expression {
-                    GIT_BRANCH ==~ /.*master|.*feature/
+                    GIT_BRANCH ==~ /.*master|.*feature|.*development|.*hotfix/
                 }
             }
             steps {
                 withDockerContainer('php') {
 			        script {
                         try{
-				           echo "Running Test cases"
-			     	       sh './vendor/bin/phpunit --colors tests'				
-			            }
-                        catch (Exception e) {
-                            echo "Stage failed, but we still continue"
-                        } 
-                    }
-                }
+				        echo "Running Test cases"
+			     	    sh './vendor/bin/phpunit --colors tests'
+                        }
+                        catch(Exception e){
+                            echo "Skipped test"
+                        }				
+			        }
+                }       
             }
         }
-        
-       
 		stage('CodeAnalysis') {
             when {
                 expression {
