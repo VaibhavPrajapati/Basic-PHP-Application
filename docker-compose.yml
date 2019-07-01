@@ -21,7 +21,11 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+<<<<<<< HEAD
     image: vaibhavprajapati12/laravel-php-fpm
+=======
+    image: varun/laravel-php-fpm
+>>>>>>> master
     container_name: app
     restart: unless-stopped
     tty: true
@@ -57,6 +61,7 @@ services:
     networks:
       - app-network
 
+<<<<<<< HEAD
   #jenkins: 
   #  image: jenkins/jenkins:lts
   #  volumes:
@@ -64,6 +69,15 @@ services:
   #  ports:
   #    - "8080:8080"
   #    - "50000:50000"
+=======
+  jenkins: 
+    image: jenkins/jenkins:lts
+    volumes:
+      - ./docker-data/jenkins:/var/jenkins_home
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+>>>>>>> master
 
   # # You can enable this if don't want to host jaeger outside
   #   jaeger: 
