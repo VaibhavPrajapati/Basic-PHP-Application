@@ -1,0 +1,64 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+   - stat:
+        path: /usr/bin/docker
+     register: st
+
+   - name: Update repositories
+     apt:
+      upgrade: yes
+      update_cache: yes
+     when: st.stat.exists == False
+
+   - name: Install a list of packages
+     apt:
+       name: "{{ packages }}"
+     vars:
+       packages:
+        - apt-transport-https
+        - ca-certificates
+        - curl
+        - gnupg-agent
+        - software-properties-common
+     when: st.stat.exists == False
+
+   - name: Add an Apt signing key, uses whichever key is at the URL
+     apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+     when: st.stat.exists == False
+
+   - name: add nginx apt repository
+     apt_repository:
+      repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+      state: present
+     when: st.stat.exists == False
+
+   - name: Update repositories
+     apt:
+      upgrade: yes
+      update_cache: yes
+     when: st.stat.exists == False
+
+   - name: Install a list of packages
+     apt:
+       name: "{{ packages }}"
+     vars:
+       packages:
+        - docker-ce
+        - docker-ce-cli
+        - containerd.io
+     when: st.stat.exists == False
+
+   - stat:
+        path: /usr/local/bin/docker-compose
+     register: stcomp
+
+   - name: Install docker-compose
+     command: curl -L "https://github.com/docker/compose/releases/download/1.24.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+     when: stcomp.stat.exists == False
+
+   - docker_service:
+        project_src: .
