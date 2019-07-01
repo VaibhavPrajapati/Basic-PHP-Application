@@ -19,6 +19,7 @@ pipeline {
                 }
             }
         }
+        try {
         stage('Test') {
             when {
                 expression {
@@ -33,6 +34,10 @@ pipeline {
 			        }
                 }       
             }
+        }
+        }
+        catch (Exception e) {
+                    echo "Stage failed, but we still continue"
         }
 		stage('CodeAnalysis') {
             when {
