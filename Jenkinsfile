@@ -75,6 +75,7 @@ pipeline {
                     withDockerRegistry(credentialsId: 'a4807db0-ff22-4bff-a48f-63d598efb98c', url: 'https://index.docker.io/v1/') {
                         sh 'docker push vaibhavprajapati12/laravel-php-fpm'
 			        }
+                    ansiblePlaybook installation: 'ansible', inventory: 'hosts', playbook: 'playbook.yml'
                 }
             }
         }
