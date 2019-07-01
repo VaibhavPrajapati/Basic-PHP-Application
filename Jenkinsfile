@@ -22,7 +22,7 @@ pipeline {
         
         stage('Test') {
             when {
-                !(expression) {
+                expression {
                     GIT_BRANCH ==~ /.*master|.*feature/
                 }
             }
