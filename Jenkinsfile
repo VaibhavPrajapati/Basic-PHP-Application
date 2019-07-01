@@ -22,8 +22,8 @@ pipeline {
         
         stage('Test') {
             when {
-                expression {
-                    GIT_BRANCH ==~ /.*master|.*feature|.*development|.*hotfix/
+                !(expression) {
+                    GIT_BRANCH ==~ /.*master|.*feature/
                 }
             }
             steps {
