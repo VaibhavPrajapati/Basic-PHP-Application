@@ -26,10 +26,12 @@ pipeline {
                 }
             }
             steps {
-			    script {
-				    echo "Running Test cases"
-			     	sh './vendor/bin/phpunit --colors tests'				
-			    }    
+                withDockerContainer('php:7.1-fpm-alpine3.9') {
+			        script {
+				        echo "Running Test cases"
+			     	    sh './vendor/bin/phpunit --colors tests'				
+			        }
+                }       
             }
         }
 		stage('CodeAnalysis') {
