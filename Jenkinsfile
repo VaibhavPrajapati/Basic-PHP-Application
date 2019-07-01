@@ -26,7 +26,7 @@ pipeline {
                 }
             }
             steps {
-                withDockerContainer('php:7.1-fpm-alpine3.9') {
+                withDockerContainer('php') {
 			        script {
 				        echo "Running Test cases"
 			     	    sh './vendor/bin/phpunit --colors tests'				
