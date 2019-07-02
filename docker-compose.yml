@@ -21,11 +21,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-<<<<<<< HEAD
     image: vaibhavprajapati12/laravel-php-fpm
-=======
-    image: varun/laravel-php-fpm
->>>>>>> master
     container_name: app
     restart: unless-stopped
     tty: true
