@@ -57,23 +57,13 @@ services:
     networks:
       - app-network
 
-<<<<<<< HEAD
   #jenkins: 
   #  image: jenkins/jenkins:lts
   #  volumes:
   #    - ./docker-data/jenkins:/var/jenkins_home
   #  ports:
   #    - "8080:8080"
-  #    - "50000:50000"
-=======
-  jenkins: 
-    image: jenkins/jenkins:lts
-    volumes:
-      - ./docker-data/jenkins:/var/jenkins_home
-    ports:
-      - "8080:8080"
-      - "50000:50000"
->>>>>>> master
+  #    - "50000:50000
 
   # # You can enable this if don't want to host jaeger outside
   #   jaeger: 
