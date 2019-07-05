@@ -56,6 +56,41 @@ services:
       SERVICE_NAME: mysql
     networks:
       - app-network
+  
+  ## Prometheus
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - ./promotheus_config/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./promotheus_config/alert_rules.yml:/etc/prometheus/alert_rules.yml
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    ports:
+      - '9090:9090'
+    networks:
+      - app-network
+
+
+  node-exporter:
+    image: prom/node-exporter
+    ports:
+      - '9113:9113'
+    networks:
+      - app-network
+
+  alertmanager:
+    image: prom/alertmanager
+    privileged: true
+    volumes:
+      - ./promotheus_config/alertmanager.yml:/alertmanager.yml
+    command:
+      - '--config.file=/alertmanager.yml'
+    ports:
+      - '9093:9093'
+    networks:
+      - app-network
+  
+ 
 
   #jenkins: 
   #  image: jenkins/jenkins:lts
