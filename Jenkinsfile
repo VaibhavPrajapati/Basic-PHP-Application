@@ -22,7 +22,7 @@ pipeline {
         stage('Test') {
             when {
                 expression {
-                    GIT_BRANCH ==~ /.*master|.*feature|.*development|.*hotfix/
+                    GIT_BRANCH ==~ /.*master|.*feature|.*development/*|.*hotfix/
                 }
             }
             steps {
@@ -42,7 +42,7 @@ pipeline {
 		stage('CodeAnalysis') {
             when {
                 expression {
-                    GIT_BRANCH ==~ /.*master|.*feature|.*development|.*hotfix/
+                    GIT_BRANCH ==~ /.*master|.*feature|.*development/*|.*hotfix/
                 }
             }
             steps {			
@@ -57,7 +57,7 @@ pipeline {
 		stage('StoreArtifact') {
             when {
                 expression {
-                    GIT_BRANCH ==~ /.*master|.*feature|.*development|.*hotfix/
+                    GIT_BRANCH ==~ /.*master|.*feature|.*development/*|.*hotfix/
                 }
             }
             steps {
@@ -89,7 +89,7 @@ pipeline {
         stage('Deploy_Dev') {
             when {
                 expression {
-                    GIT_BRANCH ==~ /.*development/
+                    GIT_BRANCH ==~ /.*development/*
                 }
             }
             steps {
