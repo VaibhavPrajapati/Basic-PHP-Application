@@ -6,7 +6,7 @@ route:
 receivers:
 - name: email-me
   email_configs:
-  - to: vaibhavprajapati@gmail.com
+  - to: vaibhavprajapati1@gmail.com
     from: vaibhavprajapati1@gmail.com
     smarthost: smtp.gmail.com:587
     auth_username: "vaibhavprajapati1@gmail.com"
