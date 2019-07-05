@@ -71,12 +71,12 @@ pipeline {
         stage('Deploy_Stage') {
             when {
                 expression {
-                    GIT_BRANCH ==~ /.*master|.*feature|.*development|.*hotfix/
+                    GIT_BRANCH ==~ /.*master|.*feature|.*hotfix/
                 }
             }
             steps {
 			    script{
-			    	echo "Deploy application"
+			    	echo "Deploy application on stage environment"
 				    sh 'docker-compose build'
                     sh 'docker push vaibhavprajapati12/laravel-php-fpm'
                     withDockerRegistry(credentialsId: 'a4807db0-ff22-4bff-a48f-63d598efb98c', url: 'https://index.docker.io/v1/') {
@@ -94,7 +94,7 @@ pipeline {
             }
             steps {
 			    script{
-			    	echo "Deploy application"
+			    	echo "Deploy application on developmment environment"
 				    sh 'docker-compose build'
                     sh 'docker push vaibhavprajapati12/laravel-php-fpm'
                     withDockerRegistry(credentialsId: 'a4807db0-ff22-4bff-a48f-63d598efb98c', url: 'https://index.docker.io/v1/') {
