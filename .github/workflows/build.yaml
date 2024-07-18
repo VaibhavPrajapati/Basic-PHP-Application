@@ -2,17 +2,14 @@ name: Build
 on: push
 jobs:
   build-image:
+    name: build to ${{ matrix.vars.target }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
         vars:
-        - target: dev
-          url: test-dev
-        - target: prod
-          url: test-prod
+          - target: dev
+            appurl: test-dev
     steps:
       - name: my-step
-        run: echo "Hello World!"
-        with:
-          target-step: ${{ matrix.vars.target }}
-          url-step: ${{ matrix.vars.url }}
+        run: |
+          echo "${{ matrix.vars.target }} : ${{ matrix.vars.appurl }}"
