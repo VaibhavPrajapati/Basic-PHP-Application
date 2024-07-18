@@ -9,6 +9,8 @@ jobs:
         vars:
           - target: dev
             appurl: test-dev
+          - target: prod
+            appurl: test-prod
     steps:
       - name: my-step
         run: |
